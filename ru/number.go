@@ -5,16 +5,16 @@ import (
 )
 
 var power = []struct {
-	sex  int
-	one  string
-	four string
-	many string
+	gender int
+	one    string
+	four   string
+	many   string
 }{
 	{}, // add one item to match a loop counter
-	{sex: 1, one: "тысяча ", four: "тысячи ", many: "тысяч "},
-	{sex: 0, one: "миллион ", four: "миллиона ", many: "миллионов "},
-	{sex: 0, one: "миллиард ", four: "миллиарда ", many: "миллиардов "},
-	{sex: 0, one: "триллион ", four: "триллиона ", many: "триллионов "},
+	{gender: 1, one: "тысяча ", four: "тысячи ", many: "тысяч "},
+	{gender: 0, one: "миллион ", four: "миллиона ", many: "миллионов "},
+	{gender: 0, one: "миллиард ", four: "миллиарда ", many: "миллиардов "},
+	{gender: 0, one: "триллион ", four: "триллиона ", many: "триллионов "},
 }
 
 var unit = []struct {
@@ -51,30 +51,30 @@ func Number2Text(value int) string {
 
 	for i := maxPower - 1; i >= 0; i-- {
 		divisor /= 1000
-		carry := value / divisor
+		quotient := value / divisor
 		value %= divisor
-		var str string
 
-		if carry == 0 {
+		if quotient == 0 {
 			continue
 		}
 
-		for carry >= 20 {
-			if carry >= 100 {
-				str += unit[carry/100].hun
-				carry %= 100
-			} else if carry >= 20 {
-				str += unit[carry/10].dec
-				carry %= 10
+		var str string
+		for quotient >= 20 {
+			if quotient >= 100 {
+				str += unit[quotient/100].hun
+				quotient %= 100
+			} else if quotient >= 20 {
+				str += unit[quotient/10].dec
+				quotient %= 10
 			}
 		}
-		if carry >= 10 {
-			str += unit[carry-10].two
+		if quotient >= 10 {
+			str += unit[quotient-10].two
 		} else {
-			str += unit[carry].one[power[i].sex]
+			str += unit[quotient].one[power[i].gender]
 		}
 
-		switch carry {
+		switch quotient {
 		case 1:
 			str += power[i].one
 		case 2, 3, 4:
