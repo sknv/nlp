@@ -37,7 +37,7 @@ var unit = []struct {
 
 func Number2Text(value int) string {
 	if value == 0 {
-		return "ноль "
+		return "ноль"
 	}
 
 	var result string
